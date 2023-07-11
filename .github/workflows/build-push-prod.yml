@@ -123,7 +123,7 @@ jobs:
         environment-url: ${{secrets.PRODUCTION_ENVIRONMENT_URL}}
         app-id: ${{secrets.PROD_CLIENT_ID}}
         client-secret: ${{ secrets.PROD_CLIENT_SECRET }}
-        tenant-id: ${{secrets.PROD_TENANT}}
+        tenant-id: ${{secrets.PROD_TENANT_ID}}
         solution-file: ${{ inputs.solution_release_folder}}/${{ inputs.solution_name }}_managed.zip
         force-overwrite: true
         publish-changes: true
