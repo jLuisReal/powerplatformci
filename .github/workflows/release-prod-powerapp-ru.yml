@@ -29,16 +29,16 @@ on:
        type: string
        default: out/release
     secrets:
-      DEV_CLIENT_SECRET:
+      BUILD_CLIENT_SECRET:
         description: 'The secret value for authentication using SPN'
         required: true
-      DEV_ENVIRONMENT_URL:
+      BUILD_ENVIRONMENT_URL:
         description: 'Build environment url.'
         required: true      
-      DEV_CLIENT_ID: 
+      BUILD_CLIENT_ID: 
         description: 'The client id'
         required: true
-      DEV_TENANT_ID: 
+      BUILD_TENANT_ID: 
         description: 'The tenant id'
         required: true
       PROD_CLIENT_ID: 
@@ -73,13 +73,13 @@ jobs:
         solution-file: ${{ inputs.solution_outbound_folder}}/${{ inputs.solution_name }}.zip
         solution-type: Unmanaged
 
-    - name: Import solution as unmanaged to dev env
+    - name: Import solution as unmanaged to BUILD env
       uses: microsoft/powerplatform-actions/import-solution@v0
       with:
-        environment-url: ${{secrets.DEV_ENVIRONMENT_URL}}
-        app-id: ${{secrets.DEV_CLIENT_ID}}
-        client-secret: ${{ secrets.DEV_CLIENT_SECRET }}
-        tenant-id: ${{secrets.DEV_TENANT_ID}}
+        environment-url: ${{secrets.BUILD_ENVIRONMENT_URL}}
+        app-id: ${{secrets.BUILD_CLIENT_ID}}
+        client-secret: ${{ secrets.BUILD_CLIENT_SECRET }}
+        tenant-id: ${{secrets.BUILD_TENANT_ID}}
         solution-file: ${{ inputs.solution_outbound_folder}}/${{ inputs.solution_name }}.zip
         force-overwrite: true
         publish-changes: true
@@ -87,10 +87,10 @@ jobs:
     - name: Export solution as managed
       uses: microsoft/powerplatform-actions/export-solution@v0
       with:
-        environment-url: ${{secrets.DEV_ENVIRONMENT_URL}}
-        app-id: ${{secrets.DEV_CLIENT_ID}}
-        client-secret: ${{ secrets.DEV_CLIENT_SECRET }} 
-        tenant-id: ${{secrets.DEV_TENANT_ID}}
+        environment-url: ${{secrets.BUILD_ENVIRONMENT_URL}}
+        app-id: ${{secrets.BUILD_CLIENT_ID}}
+        client-secret: ${{ secrets.BUILD_CLIENT_SECRET }} 
+        tenant-id: ${{secrets.BUILD_TENANT_ID}}
         solution-name: ${{ inputs.solution_name }}
         managed: true
         solution-output-file: ${{ inputs.solution_shipping_folder}}/${{ inputs.solution_name }}_managed.zip

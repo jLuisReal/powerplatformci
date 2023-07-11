@@ -9,14 +9,14 @@ permissions:
   contents: write
 jobs:
   Release-solution-ALMLab:
-    uses: ./.github/workflows/build-push-prod.yml
+    uses: ./.github/workflows/release-prod-powerapp-ru.yml
     with:
       solution_name: BasicApp
     secrets:
-      DEV_CLIENT_SECRET: ${{ secrets.PowerPlatformSPN }}
-      DEV_ENVIRONMENT_URL: ${{secrets.ENVIRONMENTURL}}
-      DEV_CLIENT_ID: ${{secrets.CLIENT_ID}}
-      DEV_TENANT_ID: ${{secrets.TENANT}} 
+      BUILD_CLIENT_SECRET: ${{ secrets.PowerPlatformSPN }}
+      BUILD_ENVIRONMENT_URL: ${{secrets.ENVIRONMENTURL}}
+      BUILD_CLIENT_ID: ${{secrets.CLIENT_ID}}
+      BUILD_TENANT_ID: ${{secrets.TENANT}} 
 
       PROD_CLIENT_SECRET: ${{ secrets.PROD_SECRET }}
       PROD_ENVIRONMENT_URL: ${{secrets.PROD_ENVIRONMENT_URL}}

@@ -3,31 +3,29 @@ name: export-and-branch-solution
 #  unpack it and prepare, commit and push a git branch with the changes
 
 on:
-  workflow_dispatch:
-    inputs:
-      # Change this value
+  workflow_call:
+    inputs: 
       solution_name:
-        description: 'name of the solution to worked on from Power Platform'
-        required: true
-        default: 'BasicApp'
-       #Do Not change these values
-      solution_exported_folder:
-        description: 'folder name for staging the exported solution *do not change*'
-        required: true
-        default: out/exported/
-      solution_folder:
+        description: 'The solution name.'
+        type: string
+        default: BasicApp       
+      solution_shipping_folder:
+        description: 'folder name for staging the exported solution *do not change*'        
+        type: string
+        default: out/ship/
+      solution_outbound_folder:
         description: 'staging the unpacked solution folder before check-in *do not change*'
-        required: true
+        type: string
         default: out/solutions/
-      solution_target_folder: 
+      solution_source_folder: 
        description: 'folder name to be created and checked in *do not change*'
-       required: true
+       type: string
        default: solutions/
-env:
-#edit your values here
-  ENVIRONMENT_URL: ${{secrets.ENVIRONMENTURL}}
-  CLIENT_ID: ${{secrets.CLIENT_ID}}
-  TENANT_ID: ${{secrets.TENANT}}
+      solution_release_folder:
+       description: 'folder where the released binaries are going to be hosted *do not change*'
+       type: string
+       default: out/release
+
 permissions:
   contents: write
 jobs:
@@ -35,6 +33,7 @@ jobs:
     runs-on: windows-latest
     env:
       RUNNER_DEBUG: 1
+    environment: dev
 
     steps:
     - uses: actions/checkout@v2
@@ -44,19 +43,19 @@ jobs:
     - name: who-am-i action
       uses: microsoft/powerplatform-actions/who-am-i@v0
       with:
-        environment-url: ${{env.ENVIRONMENT_URL}}
-        app-id: ${{env.CLIENT_ID}}
-        client-secret: ${{ secrets.PowerPlatformSPN }}
-        tenant-id: ${{env.TENANT_ID}}
+        environment-url: ${{secrets.ENVIRONMENT_URL}}
+        app-id: ${{secrets.CLIENT_ID}}
+        client-secret: ${{ secrets.CLIENT_SECRET }}
+        tenant-id: ${{secrets.TENANT_ID}}
 
 
     - name: export-solution action
       uses: microsoft/powerplatform-actions/export-solution@v0
       with:
-        environment-url: ${{env.ENVIRONMENT_URL}}
-        app-id: ${{env.CLIENT_ID}}
-        client-secret: ${{ secrets.PowerPlatformSPN }}
-        tenant-id: ${{env.TENANT_ID}}
+        environment-url: ${{secrets.ENVIRONMENT_URL}}
+        app-id: ${{secrets.CLIENT_ID}}
+        client-secret: ${{ secrets.CLIENT_SECRET }}
+        tenant-id: ${{secrets.TENANT_ID}}
         solution-name: ${{ github.event.inputs.solution_name }}
         solution-output-file: ${{ github.event.inputs.solution_exported_folder}}/${{ github.event.inputs.solution_name }}.zip
 
