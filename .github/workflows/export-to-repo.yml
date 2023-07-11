@@ -25,7 +25,8 @@ on:
          description: 'folder where the released binaries are going to be hosted *do not change*'
          type: string
          default: out/release     
-
+permissions:
+    contents: write
 jobs:
   Release-solution-ALMLab:
     uses: ./.github/workflows/export-powerapp-ru.yml
