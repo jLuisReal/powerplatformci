@@ -1,0 +1,20 @@
+name: Release action
+# Call the reusable workflow release-solution-with-inputs.yml
+# Release your solution to prod when you create a new release.
+
+on:
+  release:
+      types: [created]        
+permissions:
+  contents: write
+jobs:
+  Release-solution-ALMLab:
+    uses: ./.github/workflows/build-push-prod.yml
+    with:
+      solution_name: BasicApp
+    secrets:
+      envSecret: ${{ secrets.PowerPlatformSPN }}
+      BUILD_ENVIRONMENT_URL: ${{secrets.ENVIRONMENTURL}}
+      PRODUCTION_ENVIRONMENT_URL: ${{secrets.ENVIRONMENTURL}}
+      CLIENT_ID: ${{secrets.CLIENT_ID}}
+      TENANT_ID: ${{secrets.TENANT}}  
