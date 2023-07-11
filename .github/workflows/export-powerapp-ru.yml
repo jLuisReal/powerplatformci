@@ -5,6 +5,10 @@ name: export-and-branch-solution
 on:
   workflow_call:
     inputs: 
+      env:
+        description: "Name of the environment"
+        type: string
+        default: dev
       solution_name:
         description: 'The solution name.'
         type: string
@@ -25,19 +29,33 @@ on:
        description: 'folder where the released binaries are going to be hosted *do not change*'
        type: string
        default: out/release
+    secrets:
+      CLIENT_SECRET:
+        description: 'The secret value for authentication using SPN'
+        required: true
+      ENVIRONMENT_URL:
+        description: 'Build environment url.'
+        required: true      
+      CLIENT_ID: 
+        description: 'The client id'
+        required: true
+      TENANT_ID: 
+        description: 'The tenant id'
+        required: true
 
 permissions:
   contents: write
 jobs:
   export-from-dev:
     runs-on: windows-latest
+    environment: ${{inputs.env}} 
     env:
       RUNNER_DEBUG: 1
       ENVIRONMENT_URL: ${{secrets.ENVIRONMENT_URL}}
       CLIENT_ID: ${{secrets.CLIENT_ID}}
       CLIENT_SECRET: ${{secrets.CLIENT_SECRET}}
       TENANT_ID: ${{secrets.TENANT_ID}}
-    environment: dev 
+
       
 
     steps:

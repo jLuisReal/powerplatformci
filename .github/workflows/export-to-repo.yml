@@ -31,13 +31,14 @@ jobs:
   Release-solution-ALMLab:
     uses: ./.github/workflows/export-powerapp-ru.yml
     with:
+      env: dev
       solution_name: ${{inputs.solution_name}}
       solution_shipping_folder: ${{inputs.solution_shipping_folder}}
       solution_outbound_folder: ${{inputs.solution_outbound_folder}}
       solution_source_folder: ${{inputs.solution_outbound_folder}}
       solution_release_folder: ${{inputs.solution_release_folder}}
-    # secrets:
-    #   DEV_CLIENT_SECRET: ${{ secrets.PowerPlatformSPN }}
-    #   DEV_ENVIRONMENT_URL: ${{secrets.ENVIRONMENTURL}}
-    #   DEV_CLIENT_ID: ${{secrets.CLIENT_ID}}
-    #   DEV_TENANT_ID: ${{secrets.TENANT}}
+    secrets:
+      CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+      ENVIRONMENT_URL: ${{secrets.ENVIRONMENT_URL}}
+      CLIENT_ID: ${{secrets.CLIENT_ID}}
+      TENANT_ID: ${{secrets.TENANT_ID}}
