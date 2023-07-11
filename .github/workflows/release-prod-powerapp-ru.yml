@@ -5,9 +5,14 @@ name: release-solution-to-prod-reusable
 on:
   workflow_call:
     inputs: 
-      #Do Not change these values
-      #Values are set by the caller
-      #caller sample: release-action-call.ymnl
+      build_env:
+        description: "Name of the build environment"
+        type: string
+        default: build
+      prod_env:
+        description: "Name of the prod environment"
+        type: string
+        default: prod
       solution_name:
         description: 'The solution name.'
         type: string
@@ -29,37 +34,30 @@ on:
        type: string
        default: out/release
     secrets:
-      BUILD_CLIENT_SECRET:
+      CLIENT_SECRET:
         description: 'The secret value for authentication using SPN'
         required: true
-      BUILD_ENVIRONMENT_URL:
-        description: 'Build environment url.'
+      ENVIRONMENT_URL:
+        description: 'environment url.'
         required: true      
-      BUILD_CLIENT_ID: 
+      CLIENT_ID: 
         description: 'The client id'
         required: true
-      BUILD_TENANT_ID: 
+      TENANT_ID: 
         description: 'The tenant id'
-        required: true
-      PROD_CLIENT_ID: 
-        description: 'The client id'
-        required: true
-      PROD_ENVIRONMENT_URL: 
-        description: 'Production environment url.'
-        required: true
-      PROD_TENANT_ID: 
-        description: 'The tenant id'
-        required: true
-      PROD_CLIENT_SECRET:
-        description: 'The secret value for authentication using SPN'
         required: true
 
 jobs:
   convert-to-managed:
     runs-on: windows-latest
     # or you can say runs-on: ubuntu-latest
+    environment: ${{inputs.build_env}} 
     env:
       RUNNER_DEBUG: 1
+      ENVIRONMENT_URL: ${{secrets.ENVIRONMENT_URL}}
+      CLIENT_ID: ${{secrets.CLIENT_ID}}
+      CLIENT_SECRET: ${{secrets.CLIENT_SECRET}}
+      TENANT_ID: ${{secrets.TENANT_ID}}
 
     steps:
     - uses: actions/checkout@v2
@@ -76,10 +74,10 @@ jobs:
     - name: Import solution as unmanaged to BUILD env
       uses: microsoft/powerplatform-actions/import-solution@v0
       with:
-        environment-url: ${{secrets.BUILD_ENVIRONMENT_URL}}
-        app-id: ${{secrets.BUILD_CLIENT_ID}}
-        client-secret: ${{ secrets.BUILD_CLIENT_SECRET }}
-        tenant-id: ${{secrets.BUILD_TENANT_ID}}
+        environment-url: ${{secrets.ENVIRONMENT_URL}}
+        app-id: ${{secrets.CLIENT_ID}}
+        client-secret: ${{ secrets.CLIENT_SECRET }}
+        tenant-id: ${{secrets.TENANT_ID}}
         solution-file: ${{ inputs.solution_outbound_folder}}/${{ inputs.solution_name }}.zip
         force-overwrite: true
         publish-changes: true
@@ -87,10 +85,10 @@ jobs:
     - name: Export solution as managed
       uses: microsoft/powerplatform-actions/export-solution@v0
       with:
-        environment-url: ${{secrets.BUILD_ENVIRONMENT_URL}}
-        app-id: ${{secrets.BUILD_CLIENT_ID}}
-        client-secret: ${{ secrets.BUILD_CLIENT_SECRET }} 
-        tenant-id: ${{secrets.BUILD_TENANT_ID}}
+        environment-url: ${{secrets.ENVIRONMENT_URL}}
+        app-id: ${{secrets.CLIENT_ID}}
+        client-secret: ${{ secrets.CLIENT_SECRET }} 
+        tenant-id: ${{secrets.TENANT_ID}}
         solution-name: ${{ inputs.solution_name }}
         managed: true
         solution-output-file: ${{ inputs.solution_shipping_folder}}/${{ inputs.solution_name }}_managed.zip
@@ -120,10 +118,10 @@ jobs:
     - name: Import solution to prod env
       uses: microsoft/powerplatform-actions/import-solution@v0
       with:
-        environment-url: ${{secrets.PROD_ENVIRONMENT_URL}}
-        app-id: ${{secrets.PROD_CLIENT_ID}}
-        client-secret: ${{ secrets.PROD_CLIENT_SECRET }}
-        tenant-id: ${{secrets.PROD_TENANT_ID}}
+        environment-url: ${{secrets.ENVIRONMENT_URL}}
+        app-id: ${{secrets.CLIENT_ID}}
+        client-secret: ${{ secrets.CLIENT_SECRET }}
+        tenant-id: ${{secrets.TENANT_ID}}
         solution-file: ${{ inputs.solution_release_folder}}/${{ inputs.solution_name }}_managed.zip
         force-overwrite: true
         publish-changes: true
