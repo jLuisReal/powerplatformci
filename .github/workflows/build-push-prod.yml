@@ -35,9 +35,6 @@ on:
       DEV_ENVIRONMENT_URL:
         description: 'Build environment url.'
         required: true      
-      PRODUCTION_ENVIRONMENT_URL: 
-        description: 'Production environment url.'
-        required: true
       DEV_CLIENT_ID: 
         description: 'The client id'
         required: true
@@ -46,6 +43,9 @@ on:
         required: true
       PROD_CLIENT_ID: 
         description: 'The client id'
+        required: true
+      PROD_ENVIRONMENT_URL: 
+        description: 'Production environment url.'
         required: true
       PROD_TENANT_ID: 
         description: 'The tenant id'
