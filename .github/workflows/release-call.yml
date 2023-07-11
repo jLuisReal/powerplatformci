@@ -13,8 +13,12 @@ jobs:
     with:
       solution_name: BasicApp
     secrets:
-      envSecret: ${{ secrets.PowerPlatformSPN }}
-      BUILD_ENVIRONMENT_URL: ${{secrets.ENVIRONMENTURL}}
-      PRODUCTION_ENVIRONMENT_URL: ${{secrets.ENVIRONMENTURL}}
-      CLIENT_ID: ${{secrets.CLIENT_ID}}
-      TENANT_ID: ${{secrets.TENANT}}  
+      DEV_CLIENT_SECRET: ${{ secrets.PowerPlatformSPN }}
+      DEV_ENVIRONMENT_URL: ${{secrets.ENVIRONMENTURL}}
+      DEV_CLIENT_ID: ${{secrets.CLIENT_ID}}
+      DEV_TENANT_ID: ${{secrets.TENANT}} 
+      
+      PROD_CLIENT_SECRET: ${{ secrets.PROD_SECRET }}
+      PROD_ENVIRONMENT_URL: ${{secrets.PROD_ENVIRONMENTURL}}
+      PROD_CLIENT_ID: ${{secrets.PROD_CLIENT_ID}}
+      PROD_TENANT_ID: ${{secrets.PROD_TENANT}}  
