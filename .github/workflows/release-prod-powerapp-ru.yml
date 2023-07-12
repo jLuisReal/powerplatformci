@@ -74,10 +74,10 @@ jobs:
     - name: Import solution as unmanaged to BUILD env
       uses: microsoft/powerplatform-actions/import-solution@v0
       with:
-        environment-url: ${{secrets.ENVIRONMENT_URL}}
-        app-id: ${{secrets.CLIENT_ID}}
-        client-secret: ${{ secrets.CLIENT_SECRET }}
-        tenant-id: ${{secrets.TENANT_ID}}
+        environment-url: ${{env.ENVIRONMENT_URL}}
+        app-id: ${{env.CLIENT_ID}}
+        client-secret: ${{ env.CLIENT_SECRET }}
+        tenant-id: ${{env.TENANT_ID}}
         solution-file: ${{ inputs.solution_outbound_folder}}/${{ inputs.solution_name }}.zip
         force-overwrite: true
         publish-changes: true
@@ -85,10 +85,10 @@ jobs:
     - name: Export solution as managed
       uses: microsoft/powerplatform-actions/export-solution@v0
       with:
-        environment-url: ${{secrets.ENVIRONMENT_URL}}
-        app-id: ${{secrets.CLIENT_ID}}
-        client-secret: ${{ secrets.CLIENT_SECRET }} 
-        tenant-id: ${{secrets.TENANT_ID}}
+        environment-url: ${{env.ENVIRONMENT_URL}}
+        app-id: ${{env.CLIENT_ID}}
+        client-secret: ${{ env.CLIENT_SECRET }} 
+        tenant-id: ${{env.TENANT_ID}}
         solution-name: ${{ inputs.solution_name }}
         managed: true
         solution-output-file: ${{ inputs.solution_shipping_folder}}/${{ inputs.solution_name }}_managed.zip
@@ -102,8 +102,13 @@ jobs:
   release-to-staging:
     needs: [ convert-to-managed ]
     runs-on: windows-latest
+    environment: ${{inputs.build_env}} 
     env:
       RUNNER_DEBUG: 1
+      ENVIRONMENT_URL: ${{secrets.ENVIRONMENT_URL}}
+      CLIENT_ID: ${{secrets.CLIENT_ID}}
+      CLIENT_SECRET: ${{secrets.CLIENT_SECRET}}
+      TENANT_ID: ${{secrets.TENANT_ID}}
 
     steps:
     - uses: actions/checkout@v2
@@ -118,10 +123,10 @@ jobs:
     - name: Import solution to prod env
       uses: microsoft/powerplatform-actions/import-solution@v0
       with:
-        environment-url: ${{secrets.ENVIRONMENT_URL}}
-        app-id: ${{secrets.CLIENT_ID}}
-        client-secret: ${{ secrets.CLIENT_SECRET }}
-        tenant-id: ${{secrets.TENANT_ID}}
+        environment-url: ${{env.ENVIRONMENT_URL}}
+        app-id: ${{env.CLIENT_ID}}
+        client-secret: ${{ env.CLIENT_SECRET }}
+        tenant-id: ${{env.TENANT_ID}}
         solution-file: ${{ inputs.solution_release_folder}}/${{ inputs.solution_name }}_managed.zip
         force-overwrite: true
         publish-changes: true
