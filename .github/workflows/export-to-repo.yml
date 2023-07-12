@@ -6,25 +6,22 @@ on:
     workflow_dispatch:
       inputs: 
         solution_name:
-          description: 'The solution name.'
-          type: string
-          default: BasicApp       
-        solution_shipping_folder:
-          description: 'folder name for staging the exported solution *do not change*'        
-          type: string
-          default: out/ship/
-        solution_outbound_folder:
+          description: 'name of the solution to worked on from Power Platform'
+          required: true
+          default: 'BasicApp'
+         #Do Not change these values
+        solution_exported_folder:
+          description: 'folder name for staging the exported solution *do not change*'
+          required: true
+          default: out/exported/
+        solution_folder:
           description: 'staging the unpacked solution folder before check-in *do not change*'
-          type: string
+          required: true
           default: out/solutions/
-        solution_source_folder: 
+        solution_target_folder: 
          description: 'folder name to be created and checked in *do not change*'
-         type: string
-         default: solutions/
-        solution_release_folder:
-         description: 'folder where the released binaries are going to be hosted *do not change*'
-         type: string
-         default: out/release     
+         required: true
+         default: solutions/    
 permissions:
     contents: write
 jobs:
@@ -33,10 +30,9 @@ jobs:
     with:
       env: dev
       solution_name: ${{inputs.solution_name}}
-      solution_shipping_folder: ${{inputs.solution_shipping_folder}}
-      solution_outbound_folder: ${{inputs.solution_outbound_folder}}
-      solution_source_folder: ${{inputs.solution_outbound_folder}}
-      solution_release_folder: ${{inputs.solution_release_folder}}
+      solution_exported_folder: ${{inputs.solution_exported_folder}}
+      solution_folder: ${{inputs.solution_folder}}
+      solution_target_folder: ${{inputs.solution_target_folder}}
     secrets:
       CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
       ENVIRONMENT_URL: ${{secrets.ENVIRONMENT_URL}}
