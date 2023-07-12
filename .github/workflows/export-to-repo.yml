@@ -25,8 +25,8 @@ on:
 permissions:
     contents: write
 jobs:
-  Release-solution-ALMLab:
-    uses: ./.github/workflows/export-powerapp-ru.yml
+  Release-solution:
+    uses: jluisreal/reusable-workflows./github/workflows/export-powerapp-ru.yml@main
     with:
       env: dev
       solution_name: ${{inputs.solution_name}}

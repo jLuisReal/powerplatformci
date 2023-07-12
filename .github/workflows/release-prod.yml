@@ -8,8 +8,8 @@ on:
 permissions:
   contents: write
 jobs:
-  Release-solution-ALMLab:
-    uses: ./.github/workflows/release-prod-powerapp-ru.yml
+  Release-solution:
+    uses: jluisreal/reusable-workflows./github/workflows/release-prod-powerapp-ru.yml@main
     with:
       solution_name: BasicApp
       prod_env: prod
