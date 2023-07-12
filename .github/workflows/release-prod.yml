@@ -9,7 +9,7 @@ permissions:
   contents: write
 jobs:
   Release-solution:
-    uses: jluisreal/reusable-workflows./github/workflows/release-prod-powerapp-ru.yml@main
+    uses: jLuisReal/reusable-workflows/.github/workflows/release-prod-powerapp-ru.yml@main
     with:
       solution_name: BasicApp
       prod_env: prod

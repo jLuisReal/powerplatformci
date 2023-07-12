@@ -26,7 +26,7 @@ permissions:
     contents: write
 jobs:
   Release-solution:
-    uses: jluisreal/reusable-workflows./github/workflows/export-powerapp-ru.yml@main
+    uses: jLuisReal/reusable-workflows/.github/workflows/export-powerapp-ru.yml@main
     with:
       env: dev
       solution_name: ${{inputs.solution_name}}
